@@ -9,7 +9,6 @@ short_desc="Output management utility for sway and Hyprland Wayland compositors"
 maintainer="mitas <goza.michal@gmail.com>"
 license="MIT"
 homepage="https://github.com/nwg-piotr/nwg-displays"
-homepage="https://github.com/nwg-piotr/nwg-displays"
 distfiles="${homepage}/archive/v${version}.tar.gz"
 checksum=6dfdb4bf50fa89b52e675c1fd65bc0c9d48d2ab2b07f0cc662b74a6bfe508c1e
 
