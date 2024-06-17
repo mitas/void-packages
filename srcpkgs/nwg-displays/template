@@ -1,0 +1,27 @@
+# Template file for 'nwg-displays'
+pkgname=nwg-displays
+version=0.3.20
+revision=1
+build_style=python3-module
+hostmakedepends="python3-setuptools python3-wheel python3-installer python3-build"
+depends="python3 python3-gobject gtk+3 gtk-layer-shell python3-i3ipc"
+short_desc="Output management utility for sway and Hyprland Wayland compositors"
+maintainer="mitas <goza.michal@gmail.com>"
+license="MIT"
+homepage="https://github.com/nwg-piotr/nwg-displays"
+homepage="https://github.com/nwg-piotr/nwg-displays"
+distfiles="${homepage}/archive/v${version}.tar.gz"
+checksum=6dfdb4bf50fa89b52e675c1fd65bc0c9d48d2ab2b07f0cc662b74a6bfe508c1e
+
+do_build() {
+   python3 -m build --wheel --no-isolation
+}
+
+do_install() {
+   python3 -m installer --destdir=${DESTDIR} dist/*.whl
+
+   vinstall nwg-displays.svg 644 usr/share/pixmaps
+   vinstall nwg-displays.desktop 644 usr/share/applications
+   vlicense LICENSE
+   vdoc README.md
+}
