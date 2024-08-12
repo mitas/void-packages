@@ -1,0 +1,33 @@
+# Template file for 'masterpdfeditor-free'
+pkgname=masterpdfeditor-free
+version=4.3.89
+revision=1
+archs="x86_64"
+depends="libgcc glibc qt5-core qt5-svg sane"
+short_desc="Solution for creation and editing PDF files - Free version"
+maintainer="mitas <goza.michal@gmail.com>"
+license="custom:Proprietary"
+homepage="https://code-industry.net/free-pdf-editor/"
+distfiles="http://code-industry.net/public/master-pdf-editor-${version}_qt5.amd64.tar.gz"
+checksum="ac77db75bcc5f2bce21d98a55c07176e15682b0abe5a83708c53d38721fdab4c"
+conflicts="masterpdfeditor-qt4"
+nostrip=yes
+repository="nonfree"
+restricted=yes
+
+do_install() {
+    vlicense license.txt
+    vmkdir usr/share/applications
+    echo "[Desktop Entry]
+Type=Application
+Name=Master PDF Editor
+Exec=/opt/master-pdf-editor-${pkgver%%.*}/masterpdfeditor${pkgver%%.*}
+Icon=/opt/master-pdf-editor-${pkgver%%.*}/icon.png
+Terminal=false
+Categories=Office;" > ${DESTDIR}/usr/share/applications/masterpdfeditor${pkgver%%.*}.desktop
+  
+    vmkdir opt/master-pdf-editor-${pkgver%%.*}
+    vmkdir usr/bin
+    cp -a --no-preserve=ownership ${wrksrc}/* ${DESTDIR}/opt/master-pdf-editor-${pkgver%%.*}/
+    ln -sr ${DESTDIR}/opt/master-pdf-editor-${pkgver%%.*}/masterpdfeditor${pkgver%%.*} ${DESTDIR}/usr/bin/masterpdfeditor${pkgver%%.*}
+}
