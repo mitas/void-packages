@@ -1,0 +1,17 @@
+# Template file for 'grsync'
+pkgname=grsync
+version=1.3.1
+revision=1
+build_style=gnu-configure
+hostmakedepends="pkg-config intltool"
+makedepends="gtk+3-devel"
+short_desc="GUI for rsync, the command line directory synchronization tool"
+maintainer="mitas <goza.michal@gmail.com>"
+license="GPL-2.0-or-later"
+homepage="https://www.opbyte.it/grsync"
+distfiles="https://www.opbyte.it/release/grsync-${version}.tar.gz"
+checksum=33cc0e25daa62e5ba7091caea3c83a8dc74dc5d7721c4501d349f210c4b3c6d3
+
+do_install() {
+	make DESTDIR=${DESTDIR} install
+}

@@ -1,4 +1,4 @@
-# Template file for 'grabc'
+# Template file for 'grsync'
 pkgname=grabc
 reverts=1.1_1
 version=1.0.2
