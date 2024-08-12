@@ -23,3 +23,9 @@ etc/conf.*
 etc/virtual
 etc/xbps.d/custom
 etc/repo-keys
+
+# Except the mitas directory
+!hostdir/binpkgs/mitas
+
+# Include contents of the mitas directory
+hostdir/binpkgs/mitas/*

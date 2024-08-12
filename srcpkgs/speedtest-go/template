@@ -1,0 +1,33 @@
+# Template file for 'speedtest-go'
+pkgname=speedtest-go
+version=1.7.8
+revision=1
+build_style=go
+go_import_path="github.com/showwin/speedtest-go"
+hostmakedepends="go"
+short_desc="CLI and Go API to Test Internet Speed using speedtest.net"
+maintainer="mitas <goza.michal@gmail.com>"
+license="MIT"
+homepage="https://github.com/showwin/speedtest-go"
+distfiles="https://github.com/showwin/speedtest-go/archive/refs/tags/v${version}.tar.gz"
+checksum=29e8186818305fb1eb183504347f4ef77c0700efcb87b0fba173b0d62c26e7f6
+conflicts="speedtest-go"
+provides="speedtest-go"
+
+do_build() {
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export GOFLAGS='-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw'
+	go build
+}
+
+do_check() {
+	go test "./${pkgname%-go}"
+}
+
+do_install() {
+	vlicense LICENSE
+	vbin speedtest-go
+}
