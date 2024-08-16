@@ -1,0 +1,41 @@
+# Template file for 'openapi-tui'
+pkgname=openapi-tui
+version=0.9.4
+revision=1
+archs="x86_64"
+build_style=cargo
+short_desc="Terminal UI to list, browse and run APIs defined with OpenAPI spec"
+maintainer="mitas <goza.michal@gmail.com>"
+license="MIT"
+homepage="https://github.com/zaghaghi/openapi-tui"
+distfiles="https://github.com/zaghaghi/openapi-tui/archive/refs/tags/v${version}.tar.gz"
+checksum=ac9e16963b1ac458248fb0d10f92e1f8eeef2f8e8f99f9603e95557b7032f2f6
+
+# Extract the tarball correctly
+wrksrc="${pkgname}-${version}"
+
+depends="libgcc"
+makedepends="cargo"
+
+do_prepare() {
+cd ${wrksrc}
+cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+do_build() {
+cd ${wrksrc}
+VERGEN_GIT_DESCRIBE="Void Linux" cargo build --release --frozen
+}
+
+do_check() {
+cd ${wrksrc}
+cargo test --frozen
+}
+
+do_install() {
+cd ${wrksrc}
+vbin target/release/${pkgname} usr/bin
+vdoc README.md
+vlicense LICENSE
+}
+

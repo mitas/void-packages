@@ -1,0 +1,51 @@
+# Template file for 'polkit-explorer-git'
+pkgname=polkit-explorer-git
+version=15.fac8d70
+revision=4
+archs="*"
+build_style="python3-module"
+make_cmd="make"
+hostmakedepends="git"
+depends="python3-PyQt5 python3-lxml"
+short_desc="Present PolicyKit information in a human-readable form"
+maintainer="mitas <goza.michal@gmail.com>"
+license="ISC"
+homepage="https://github.com/scarygliders/polkit-explorer"
+distfiles="git+https://github.com/scarygliders/polkit-explorer.git"
+checksum=SKIP
+provides="polkit-explorer"
+
+# Custom version calculation from git repository
+pkgver() {
+	ls -la
+	exit
+	cd ${pkgname}
+	printf '%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+}
+
+do_build() {
+	cd ${pkgname}
+	# Call the versioning function manually to ensure correct versioning
+	pkgver
+}
+
+do_install() {
+	cd ${pkgname}
+
+	# Create necessary directories
+	install -d -m755 ${DESTDIR}/usr/bin
+	install -d -m755 ${DESTDIR}/opt/${pkgname}
+	install -d -m755 ${DESTDIR}/usr/share/licenses/${pkgname}
+	install -d -m755 ${DESTDIR}/usr/share/applications
+
+	# Install the necessary files
+	install -m644 Ui_*.py ${DESTDIR}/opt/${pkgname}/
+	install -m755 polkitex.py ${DESTDIR}/opt/${pkgname}/
+
+	# Create a symbolic link
+	ln -s /opt/${pkgname}/polkitex.py ${DESTDIR}/usr/bin/polkitex
+
+	# Install license and desktop entry
+	vlicense LICENSE
+	install -Dm644 polkitex.desktop ${DESTDIR}/usr/share/applications/${pkgname}.desktop
+}
