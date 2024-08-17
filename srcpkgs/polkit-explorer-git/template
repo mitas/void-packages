@@ -3,34 +3,38 @@ pkgname=polkit-explorer-git
 version=15.fac8d70
 revision=4
 archs="*"
+maintainer="mitas <goza.michal@gmail.com>"
 build_style="python3-module"
-make_cmd="make"
 hostmakedepends="git"
 depends="python3-PyQt5 python3-lxml"
-short_desc="Present PolicyKit information in a human-readable form"
-maintainer="mitas <goza.michal@gmail.com>"
-license="ISC"
-homepage="https://github.com/scarygliders/polkit-explorer"
-distfiles="git+https://github.com/scarygliders/polkit-explorer.git"
-checksum=SKIP
+conflicts="polkit-explorer"
 provides="polkit-explorer"
+short_desc="Present PolicyKit information in a human-readable form"
+homepage="https://github.com/scarygliders/polkit-explorer"
+license="ISC"
+distfiles="https://github.com/scarygliders/polkit-explorer.git"
+checksum=SKIP
+wrksrc="${pkgname}-${version}"
 
 # Custom version calculation from git repository
 pkgver() {
-	ls -la
-	exit
-	cd ${pkgname}
+	cd ${wrksrc}
 	printf '%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
 }
 
+do_fetch() {
+	# Clone the repository into the expected directory
+	git clone ${distfiles} ${wrksrc}
+}
+
 do_build() {
-	cd ${pkgname}
+	cd ${wrksrc}
 	# Call the versioning function manually to ensure correct versioning
 	pkgver
 }
 
 do_install() {
-	cd ${pkgname}
+	cd ${wrksrc}
 
 	# Create necessary directories
 	install -d -m755 ${DESTDIR}/usr/bin
